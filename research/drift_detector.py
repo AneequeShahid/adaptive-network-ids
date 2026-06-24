@@ -18,7 +18,8 @@ def detect_drift(y_true, y_pred, detector_type="ADWIN"):
     if detector_type == "ADWIN":
         detector = drift.ADWIN()
     elif detector_type == "DDM":
-        detector = drift.DDM()
+        from river.drift import binary
+        detector = binary.DDM()
     else:
         raise ValueError(f"Unknown detector type: {detector_type}")
         
