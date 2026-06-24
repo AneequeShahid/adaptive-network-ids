@@ -10,20 +10,30 @@ PROCESSED_FILE = os.path.join(PROCESSED_DIR, "cicids2017_clean.csv")
 
 def load_and_merge_data() -> pd.DataFrame:
     """
-    Loads all CICIDS2017 CSV files from data/raw/ and merges them into a single DataFrame.
+    Loads all CICIDS2017 Parquet or CSV files from data/raw/ and merges them into a single DataFrame.
     """
-    print(f"Looking for CSV files in {RAW_DIR}...")
-    all_files = glob.glob(os.path.join(RAW_DIR, "*.csv"))
+    print(f"Looking for Parquet files in {RAW_DIR}...")
+    parquet_files = glob.glob(os.path.join(RAW_DIR, "*.parquet"))
+    csv_files = glob.glob(os.path.join(RAW_DIR, "*.csv"))
     
-    if not all_files:
-        raise FileNotFoundError(f"No CSV files found in {RAW_DIR}. Please download the CICIDS2017 dataset.")
+    if parquet_files:
+        all_files = parquet_files
+        file_type = "parquet"
+    elif csv_files:
+        all_files = csv_files
+        file_type = "csv"
+    else:
+        raise FileNotFoundError(f"No Parquet or CSV files found in {RAW_DIR}. Please download the CICIDS2017 dataset.")
         
     df_list = []
     for file in all_files:
         print(f"Loading {os.path.basename(file)}...")
         try:
-            # We use Latin-1 encoding as some files may have unusual characters
-            df = pd.read_csv(file, encoding='cp1252', low_memory=False)
+            if file_type == "parquet":
+                df = pd.read_parquet(file)
+            else:
+                # We use Latin-1 encoding as some csv files may have unusual characters
+                df = pd.read_csv(file, encoding='cp1252', low_memory=False)
             
             # Clean up column names (strip whitespace)
             df.columns = df.columns.str.strip()

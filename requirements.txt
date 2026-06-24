@@ -13,3 +13,7 @@ tqdm==4.66.4
 jupyter==1.0.0
 notebook==7.2.0
 python-dotenv==1.0.1
+
+setuptools
+pyarrow
+fastparquet
