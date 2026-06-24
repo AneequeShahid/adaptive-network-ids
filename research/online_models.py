@@ -2,7 +2,7 @@ import os
 import pandas as pd
 import pickle
 import mlflow
-from river import tree, ensemble, metrics
+from river import tree, forest, metrics
 from tqdm import tqdm
 
 from research.static_models import load_data, evaluate_model
@@ -49,7 +49,7 @@ def train_and_evaluate_online():
     
     models = {
         "HoeffdingTree": tree.HoeffdingTreeClassifier(),
-        "AdaptiveRandomForest": ensemble.AdaptiveRandomForestClassifier(n_models=10, seed=42)
+        "AdaptiveRandomForest": forest.ARFClassifier(n_models=10, seed=42)
     }
     
     results = {}
@@ -61,7 +61,7 @@ def train_and_evaluate_online():
     labels_train = y_train.tolist()
     
     for name, model in models.items():
-        with mlflow.start_run(run_name=f"online_{name}"):
+        with mlflow.start_run(run_name=f"online_{name}", nested=True):
             print(f"\nTraining {name} on Train Split...")
             # First, pre-train on the training split
             for x_i, y_i in tqdm(zip(features_train, labels_train), total=len(labels_train), desc=f"Train {name}"):

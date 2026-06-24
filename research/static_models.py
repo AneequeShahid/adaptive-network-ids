@@ -68,7 +68,7 @@ def train_and_evaluate():
     mlflow.set_experiment("cicids2017-concept-drift")
     
     for name, model in tqdm(models.items(), desc="Training Static Models"):
-        with mlflow.start_run(run_name=f"static_{name}"):
+        with mlflow.start_run(run_name=f"static_{name}", nested=True):
             print(f"\nTraining {name}...")
             # If dataset is too large, SVM might hang. We use a subset if needed.
             if name == "SVM" and len(X_train) > 10000:

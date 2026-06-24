@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 from river import drift
 from tqdm import tqdm
@@ -54,10 +55,10 @@ def analyze_drift():
     for i, y_i in enumerate(labels):
         if i < len(labels) / 2:
             # High accuracy initially
-            pred = y_i if pd.np.random.rand() > 0.1 else 1 - y_i
+            pred = y_i if np.random.rand() > 0.1 else 1 - y_i
         else:
             # Drops to random guessing due to concept drift
-            pred = y_i if pd.np.random.rand() > 0.4 else 1 - y_i
+            pred = y_i if np.random.rand() > 0.4 else 1 - y_i
         y_pred_static.append(pred)
         
     print("Detecting drift with ADWIN...")

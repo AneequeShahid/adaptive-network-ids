@@ -77,7 +77,7 @@ def print_statistics(df: pd.DataFrame):
         print(df['Label'].value_counts())
         
         # Binary class balance
-        benign_count = (df['Label'] == 'BENIGN').sum()
+        benign_count = (df['Label'].str.upper() == 'BENIGN').sum()
         attack_count = len(df) - benign_count
         print(f"\nBinary Balance:")
         print(f"BENIGN: {benign_count} ({(benign_count/len(df))*100:.2f}%)")

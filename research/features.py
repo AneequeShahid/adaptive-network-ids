@@ -27,7 +27,7 @@ def feature_engineering():
     
     print("Encoding labels...")
     # Binary labels: BENIGN=0, Attack=1
-    df['Label_Binary'] = df['Label'].apply(lambda x: 0 if x == 'BENIGN' else 1)
+    df['Label_Binary'] = df['Label'].apply(lambda x: 0 if str(x).upper() == 'BENIGN' else 1)
     
     # Multiclass labels
     le = LabelEncoder()
