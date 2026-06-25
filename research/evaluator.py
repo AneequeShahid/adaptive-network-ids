@@ -43,6 +43,7 @@ def load_metrics():
 
 def plot_comparison(df):
     """Plot accuracy and F1 score comparison."""
+    os.makedirs(FIGURES_DIR, exist_ok=True)
     if df.empty:
         return
         
